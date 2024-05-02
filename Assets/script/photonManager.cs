@@ -56,7 +56,7 @@ public class photonManager : MonoBehaviourPunCallbacks
         Debug.Log($"Room Name = {PhotonNetwork.CurrentRoom.Name}");
     }
 
-    //룸에 입장ㅎ나 후
+    //룸에 입장한 후
     public override void OnJoinedRoom()
     {
         Debug.Log($"PhotonNectwork.InRoom = {PhotonNetwork.InRoom}");
