@@ -76,12 +76,12 @@ public class photonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate(playerBoxPrefab.name, transform.position, Quaternion.identity);
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Player newPlayer) // 사람이 들어왔을 때 알림
     {
         Debug.Log($"{newPlayer.NickName} 님이 접속했습니다.");
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public override void OnPlayerLeftRoom(Player otherPlayer) // 사람 나갔을 때 그런거..뭐..
     {
         Debug.Log($"{otherPlayer.NickName} 님이 나가셨습니다.");
 
@@ -130,7 +130,7 @@ public class photonManager : MonoBehaviourPunCallbacks
         }
     }
 
-    void DeletePlayer(int actNum)
+    void DeletePlayer(int actNum) // 플레이어 정보 삭제 - 리스트번호랑 포톤뷰번호 비교 -
     {
         for(int i =0; i<playerList.Count; i++)
         {

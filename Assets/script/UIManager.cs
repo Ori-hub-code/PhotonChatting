@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void InfoBtn()
+    public void InfoBtn() // Á¤º¸Ã¢ ¿­·È´Ù ´ÝÇû´Ù
     {
         Vector2 closeMinAnchors = new Vector2(1,0);
         Vector2 closeMaxAnchors = new Vector2(1.3f, 1);
@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    IEnumerator SmoothCoroutine(RectTransform original, Vector2 nowMin, Vector2 nowMax, Vector2 nextMin, Vector2 nextMax, float time)
+    IEnumerator SmoothCoroutine(RectTransform original, Vector2 nowMin, Vector2 nowMax, Vector2 nextMin, Vector2 nextMax, float time) // Á¤º¸Ã¢ ¿­·È´Ù ´ÝÇû´Ù
     {
         Vector3 velocity = Vector3.zero;
 
