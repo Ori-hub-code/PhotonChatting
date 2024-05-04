@@ -8,14 +8,18 @@ using WebSocketSharp;
 public class photonManager : MonoBehaviourPunCallbacks
 {
     private readonly string version = "1.0f";
-    private string userId = "Mary";
+    public string userId;
     public GameObject chattingBoxprefab;
+    public GameObject playerBoxPrefab;
+    public List<GameObject> playerList;
 
     UIManager uiManager;
 
     private void Awake()
     {
         uiManager = UIManager.Instance;
+
+        playerList = new List<GameObject>();
     }
 
 
@@ -44,6 +48,7 @@ public class photonManager : MonoBehaviourPunCallbacks
         ro.MaxPlayers = 20;
         ro.IsOpen = true;
         ro.IsVisible = true; //로비에서 룸 목록에 노출 시킬지 여부
+        ro.CleanupCacheOnLeave = false;  // 포톤 서버를 종료해도 본인이 생성한 오브젝트를 자동으로 삭제 안함.
 
         //룸 생성
         PhotonNetwork.CreateRoom("My Room", ro);
@@ -67,6 +72,20 @@ public class photonManager : MonoBehaviourPunCallbacks
         {
             Debug.Log($"{player.Value.NickName}, {player.Value.ActorNumber}");
         }
+
+        PhotonNetwork.Instantiate(playerBoxPrefab.name, transform.position, Quaternion.identity);
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log($"{newPlayer.NickName} 님이 접속했습니다.");
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log($"{otherPlayer.NickName} 님이 나가셨습니다.");
+
+        DeletePlayer(otherPlayer.ActorNumber);
     }
 
 
@@ -85,6 +104,7 @@ public class photonManager : MonoBehaviourPunCallbacks
             PhotonNetwork.GameVersion = version;
             Debug.Log(PhotonNetwork.SendRate);
 
+            userId = uiManager.LoginInput.text;
             PhotonNetwork.NickName = uiManager.LoginInput.text;
             uiManager.LoginInput.text = "";
 
@@ -93,6 +113,8 @@ public class photonManager : MonoBehaviourPunCallbacks
 
             uiManager.ChattinPopup.SetActive(true);
             uiManager.LoginPopup.SetActive(false);
+
+            
         }
     }
 
@@ -105,6 +127,20 @@ public class photonManager : MonoBehaviourPunCallbacks
         else
         {
             PhotonNetwork.Instantiate(chattingBoxprefab.name, transform.position, Quaternion.identity);
+        }
+    }
+
+    void DeletePlayer(int actNum)
+    {
+        for(int i =0; i<playerList.Count; i++)
+        {
+            PhotonView pv = playerList[i].GetComponent<PhotonView>();
+
+            if(pv.ViewID / 1000 == actNum)
+            {
+                Destroy(pv.gameObject);
+                playerList.Remove(playerList[i]);
+            }
         }
     }
 

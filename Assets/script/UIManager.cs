@@ -30,10 +30,77 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        LoginPopup.SetActive(true);
+        ChattinPopup.SetActive(false);
     }
 
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void InfoBtn()
+    {
+        Vector2 closeMinAnchors = new Vector2(1,0);
+        Vector2 closeMaxAnchors = new Vector2(1.3f, 1);
+
+        Vector2 openMinAnchors = new Vector2(0.7f, 0);
+        Vector2 openMaxAnchors = new Vector2(1, 1);
+
+        if(infoBox.anchorMin == closeMinAnchors)
+        {
+            StartCoroutine(
+            SmoothCoroutine(infoBox, closeMinAnchors, closeMaxAnchors, openMinAnchors, openMaxAnchors, 0.25f));
+        }
+        else
+        {
+            StartCoroutine(
+            SmoothCoroutine(infoBox, openMinAnchors, openMaxAnchors, closeMinAnchors, closeMaxAnchors, 0.25f));
+        }
+
+    }
+
+    IEnumerator SmoothCoroutine(RectTransform original, Vector2 nowMin, Vector2 nowMax, Vector2 nextMin, Vector2 nextMax, float time)
+    {
+        Vector3 velocity = Vector3.zero;
+
+        original.anchorMin = nowMin;
+        original.anchorMax = nowMax;
+
+        float offset = 0.01f;
+
+        if(nowMin.x < nextMin.x) // 열려있을 때
+        {
+            while (nextMin.x - offset >= original.anchorMin.x)
+            {
+                original.anchorMin
+                    = Vector3.SmoothDamp(original.anchorMin, nextMin, ref velocity, time);
+
+                original.anchorMax
+                    = Vector3.SmoothDamp(original.anchorMax, nextMax, ref velocity, time);
+
+                yield return null;
+            }
+        }
+        else // 닫혀있을 때
+        {
+            while (nextMin.x + offset <= original.anchorMin.x)
+            {
+                original.anchorMin
+                    = Vector3.SmoothDamp(original.anchorMin, nextMin, ref velocity, time);
+
+                original.anchorMax
+                    = Vector3.SmoothDamp(original.anchorMax, nextMax, ref velocity, time);
+
+                yield return null;
+            }
+        }
+        
+
+        original.anchorMin = nextMin;
+        original.anchorMax = nextMax;
+
+        yield return null;
     }
 }
