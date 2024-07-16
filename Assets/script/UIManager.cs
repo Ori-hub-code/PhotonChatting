@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
     [Header("# Login")]
     public TMP_InputField LoginInput; // 로그인 이름 input field
 
-
     [Header("# Chatting")]
     public GameObject chattingBoxParent; // 채팅 부모 오브젝트
     public TMP_InputField chatInput; // 채팅 입력 input field
@@ -58,7 +57,6 @@ public class UIManager : MonoBehaviour
             StartCoroutine(
             SmoothCoroutine(infoBox, openMinAnchors, openMaxAnchors, closeMinAnchors, closeMaxAnchors, 0.25f));
         }
-
     }
 
     IEnumerator SmoothCoroutine(RectTransform original, Vector2 nowMin, Vector2 nowMax, Vector2 nextMin, Vector2 nextMax, float time) // 정보창 열렸다 닫혔다

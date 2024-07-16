@@ -29,7 +29,7 @@ public class ChattingBox : MonoBehaviour
         if(pv.IsMine == true)
         {
             img.color = Color.yellow;
-            verticalLG.childAlignment = TextAnchor.MiddleRight;
+            verticalLG.childAlignment = TextAnchor.UpperRight;
 
             pv.RPC("SetText", RpcTarget.AllBuffered, UIManager.Instance.chatInput.text);
 
@@ -40,7 +40,7 @@ public class ChattingBox : MonoBehaviour
         else
         {
             img.color = Color.gray;
-            verticalLG.childAlignment = TextAnchor.MiddleLeft;
+            verticalLG.childAlignment = TextAnchor.UpperLeft;
         }
 
     }
